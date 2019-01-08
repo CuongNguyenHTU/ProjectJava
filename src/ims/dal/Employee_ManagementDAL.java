@@ -51,8 +51,8 @@ public class Employee_ManagementDAL {
     public int EMPLOYEE_Insert (String[] stringSQL){
         int row = 0;
         String insert = "INSERT INTO Employee(MaNV, MaDT, MaQT, MaTT, MaTG, HoLotEml, TenEml, BietDanh, NgaySinh"
-                + ", GioiTinh, NoiSinh,SoCMND, NgayCapCMND, NoiCap, StatusHonNhan, DiaChiThuongtru, DiaChiTamTru"
-                + ", DiaChiKhanCap, TenNguoiThan) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + ",Tuoi ,GioiTinh, NoiSinh,SoCMND, NgayCapCMND, NoiCap, StatusHonNhan, DiaChiThuongtru, DiaChiTamTru"
+                + ", DiaChiKhanCap, TenNguoiThan) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stament;
         try {
             stament = con.prepareCall(insert);          
@@ -74,7 +74,8 @@ public class Employee_ManagementDAL {
             stament.setString(16,stringSQL[15]);
             stament.setString(17,stringSQL[16]);
             stament.setString(18,stringSQL[17]);
-            stament.setString(19,stringSQL[18]); 
+            stament.setString(19,stringSQL[18]);
+            stament.setString(20,stringSQL[19]); 
             row = stament.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,6 +83,54 @@ public class Employee_ManagementDAL {
         return row;
     }
     
+    //Viet ham update data
+    public int EMPLOYEE_update (String[] stringSQL){
+        int row = 0;
+        String update = "UPDATE EMPLOYEE SET MaDT=?, MaQT=? ,MaTT=?, MaTG=?, HoLotEml=?, TenEml=?, BietDanh=?, NgaySinh=?,Tuoi=? ,GioiTinh=?, NoiSinh=?, SoCMND=? , NgayCapCMND=?, NoiCap=?, StatusHonNhan=?, DiaChiThuongtru=?, DiaChiTamTru=?, DiaChiKhanCap=?, TenNguoiThan=? WHERE MaNV=?";
+        PreparedStatement stament;
+        try {
+            stament = con.prepareCall(update);
+            stament.setString(1,stringSQL[0]);
+            stament.setString(2,stringSQL[1]);
+            stament.setString(3,stringSQL[2]);
+            stament.setString(4,stringSQL[3]);
+            stament.setString(5,stringSQL[4]);
+            stament.setString(6,stringSQL[5]);
+            stament.setString(7,stringSQL[6]);
+            stament.setString(8,stringSQL[7]);
+            stament.setString(9,stringSQL[8]);
+            stament.setString(10,stringSQL[9]);
+            stament.setString(11,stringSQL[10]);
+            stament.setString(12,stringSQL[11]);
+            stament.setString(13,stringSQL[12]);
+            stament.setString(14,stringSQL[13]);
+            stament.setString(15,stringSQL[14]);
+            stament.setString(16,stringSQL[15]);
+            stament.setString(17,stringSQL[16]);
+            stament.setString(18,stringSQL[17]);
+            stament.setString(19,stringSQL[18]);
+            stament.setString(20,stringSQL[19]);
+            row = stament.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return row;
+    }
     
-    
+    //Viet ham delete
+     public int EMPLOYEE_delete (String[] stringSQL){
+        int row = 0;
+        String delete = "DELETE FROM Employee WHERE MaNV=?";
+        PreparedStatement stament;
+        try {
+            stament = con.prepareCall(delete);
+            
+            stament.setString(1,stringSQL[0]);
+            
+            row = stament.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return row;
+    }
 }
