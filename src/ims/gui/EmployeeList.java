@@ -37,16 +37,18 @@ public class EmployeeList extends javax.swing.JFrame {
         setResizable(false);
     }
     
-    public void showData(){
-        String[] columnNames = {"Mã NV","Mã DT","Mã QT", "Mã TT","Mã TG","Họ lót",
-            "Tên NV","Biệt danh","Ngày sinh","Giới tính","Nơi sinh","Số CMND",
-            "Ngày cấp CMND","Tình trạng hôn nhân","Đc thường trú","Đc tạm trú","Đc khẩn cấp","Người thân"};
-        
+    //Load data lên jTable
+    public void showData() {
+        String[] columnNames = {"Mã NV", "Dân tộc", "Quốc tịch", "Tỉnh thành", "Tôn giáo", "Họ lót",
+            "Tên NV", "Biệt danh", "Ngày sinh", "Tuổi", "Giới tính", "Nơi sinh", "Số CMND",
+            "Ngày cấp CMND", "Nơi cấp", "Tình trạng hôn nhân", "Đc thường trú", "Đc tạm trú", "Đc khẩn cấp", "Người thân","Image"};
+
         //Chua du lieu tu sql do vao jtable
-        DefaultTableModel model = new DefaultTableModel();       
+        DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(columnNames);
         jTableEmployee.setModel(model);
         jTableEmployee.setAutoResizeMode(jTableEmployee.AUTO_RESIZE_OFF);
+
         String MaNV = "";
         String MaDT = "";
         String MaQT = "";
@@ -56,19 +58,22 @@ public class EmployeeList extends javax.swing.JFrame {
         String TenEml = "";
         String BietDanh = "";
         String NgaySinh = "";
+        String Tuoi = "";
         String GioiTinh = "";
         String NoiSinh = "";
         String SoCMND = "";
         String NgayCapCMND = "";
+        String NoiCap = "";
         String StatusHonNhan = "";
         String DiaChiThuongtru = "";
         String DiaChiTamTru = "";
         String DiaChiKhanCap = "";
         String TenNguoiThan = "";
-        
+        String Image = "";
+
         ResultSet rs = con.getData("SELECT * FROM Employee");
         try {
-            while(rs.next()){
+            while (rs.next()) {
                 MaNV = rs.getString("MaNV");
                 MaDT = rs.getString("MaDT");
                 MaQT = rs.getString("MaQT");
@@ -78,18 +83,21 @@ public class EmployeeList extends javax.swing.JFrame {
                 TenEml = rs.getString("TenEml");
                 BietDanh = rs.getString("BietDanh");
                 NgaySinh = rs.getString("NgaySinh");
+                Tuoi = rs.getString("Tuoi");
                 GioiTinh = rs.getString("GioiTinh");
                 NoiSinh = rs.getString("NoiSinh");
                 SoCMND = rs.getString("SoCMND");
                 NgayCapCMND = rs.getString("NgayCapCMND");
+                NoiCap = rs.getString("NoiCap");
                 StatusHonNhan = rs.getString("StatusHonNhan");
                 DiaChiThuongtru = rs.getString("DiaChiThuongtru");
                 DiaChiTamTru = rs.getString("DiaChiTamTru");
                 DiaChiKhanCap = rs.getString("DiaChiKhanCap");
                 TenNguoiThan = rs.getString("TenNguoiThan");
+                Image = rs.getString("Image");
                 
-                model.addRow(new Object[] {MaNV, MaDT,MaQT, MaTT,MaTG,HoLotEml,TenEml,BietDanh,NgaySinh,GioiTinh
-                ,NoiSinh,SoCMND,NgayCapCMND,StatusHonNhan,DiaChiThuongtru,DiaChiTamTru,DiaChiKhanCap,TenNguoiThan});
+                model.addRow(new Object[]{MaNV, MaDT, MaQT, MaTT, MaTG, HoLotEml, TenEml, BietDanh, NgaySinh, Tuoi, GioiTinh,
+                    NoiSinh, SoCMND, NgayCapCMND, NoiCap, StatusHonNhan, DiaChiThuongtru, DiaChiTamTru, DiaChiKhanCap, TenNguoiThan, Image});
             }
         } catch (SQLException ex) {
             Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,6 +130,7 @@ public class EmployeeList extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
+        btNew.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btNew.setText("Thêm ");
         btNew.setFocusable(false);
         btNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -134,20 +143,33 @@ public class EmployeeList extends javax.swing.JFrame {
         jToolBar1.add(btNew);
         jToolBar1.add(jSeparator1);
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton2.setText("Sửa");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
         jToolBar1.add(jSeparator2);
 
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton3.setText("Xóa");
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator3);
 
+        jButton4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton4.setText("In");
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -155,6 +177,7 @@ public class EmployeeList extends javax.swing.JFrame {
         jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator4);
 
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton5.setText("Thoát");
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -199,6 +222,18 @@ public class EmployeeList extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Employee emGui= new Employee();
+        emGui.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Employee emGui= new Employee();
+        emGui.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
