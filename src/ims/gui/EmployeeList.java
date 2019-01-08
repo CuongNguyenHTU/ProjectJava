@@ -8,17 +8,26 @@ package ims.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import ims.dal.Employee_ManagementDAL;
 /**
  *
  * @author NAT
  */
 public class EmployeeList extends javax.swing.JFrame {
-
+    
+    Employee_ManagementDAL con;
+    private int flag = 0;
     /** Creates new form EmployeeList */
     public EmployeeList() {
         initComponents();
         setInfoDialog();
+        con = new Employee_ManagementDAL();
+        showData();
     }
     public  void setInfoDialog() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,6 +35,65 @@ public class EmployeeList extends javax.swing.JFrame {
         int y = (int) ((dimension.getHeight() - getHeight()) / 2);
         setLocation(x, y);        
         setResizable(false);
+    }
+    
+    public void showData(){
+        String[] columnNames = {"Mã NV","Mã DT","Mã QT", "Mã TT","Mã TG","Họ lót",
+            "Tên NV","Biệt danh","Ngày sinh","Giới tính","Nơi sinh","Số CMND",
+            "Ngày cấp CMND","Tình trạng hôn nhân","Đc thường trú","Đc tạm trú","Đc khẩn cấp","Người thân"};
+        
+        //Chua du lieu tu sql do vao jtable
+        DefaultTableModel model = new DefaultTableModel();       
+        model.setColumnIdentifiers(columnNames);
+        jTableEmployee.setModel(model);
+        jTableEmployee.setAutoResizeMode(jTableEmployee.AUTO_RESIZE_OFF);
+        String MaNV = "";
+        String MaDT = "";
+        String MaQT = "";
+        String MaTT = "";
+        String MaTG = "";
+        String HoLotEml = "";
+        String TenEml = "";
+        String BietDanh = "";
+        String NgaySinh = "";
+        String GioiTinh = "";
+        String NoiSinh = "";
+        String SoCMND = "";
+        String NgayCapCMND = "";
+        String StatusHonNhan = "";
+        String DiaChiThuongtru = "";
+        String DiaChiTamTru = "";
+        String DiaChiKhanCap = "";
+        String TenNguoiThan = "";
+        
+        ResultSet rs = con.getData("SELECT * FROM Employee");
+        try {
+            while(rs.next()){
+                MaNV = rs.getString("MaNV");
+                MaDT = rs.getString("MaDT");
+                MaQT = rs.getString("MaQT");
+                MaTT = rs.getString("MaTT");
+                MaTG = rs.getString("MaTG");
+                HoLotEml = rs.getString("HoLotEml");
+                TenEml = rs.getString("TenEml");
+                BietDanh = rs.getString("BietDanh");
+                NgaySinh = rs.getString("NgaySinh");
+                GioiTinh = rs.getString("GioiTinh");
+                NoiSinh = rs.getString("NoiSinh");
+                SoCMND = rs.getString("SoCMND");
+                NgayCapCMND = rs.getString("NgayCapCMND");
+                StatusHonNhan = rs.getString("StatusHonNhan");
+                DiaChiThuongtru = rs.getString("DiaChiThuongtru");
+                DiaChiTamTru = rs.getString("DiaChiTamTru");
+                DiaChiKhanCap = rs.getString("DiaChiKhanCap");
+                TenNguoiThan = rs.getString("TenNguoiThan");
+                
+                model.addRow(new Object[] {MaNV, MaDT,MaQT, MaTT,MaTG,HoLotEml,TenEml,BietDanh,NgaySinh,GioiTinh
+                ,NoiSinh,SoCMND,NgayCapCMND,StatusHonNhan,DiaChiThuongtru,DiaChiTamTru,DiaChiKhanCap,TenNguoiThan});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -47,9 +115,9 @@ public class EmployeeList extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableEmployee = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToolBar1.setRollover(true);
@@ -91,11 +159,16 @@ public class EmployeeList extends javax.swing.JFrame {
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton5);
 
         getContentPane().add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 25));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -106,13 +179,13 @@ public class EmployeeList extends javax.swing.JFrame {
                 "Mã ", "Họ", "Tên", "Ngày sinh", "Nơi sinh"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+        jScrollPane1.setViewportView(jTableEmployee);
+        if (jTableEmployee.getColumnModel().getColumnCount() > 0) {
+            jTableEmployee.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTableEmployee.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 830, 450));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 820, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -121,6 +194,11 @@ public class EmployeeList extends javax.swing.JFrame {
         Employee emGui= new Employee();
         emGui.setVisible(true);
     }//GEN-LAST:event_btNewActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,7 +246,7 @@ public class EmployeeList extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableEmployee;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
