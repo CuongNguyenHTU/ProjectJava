@@ -5,6 +5,8 @@
  */
 package ims.gui;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 
 /**
@@ -19,8 +21,33 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Keylistener();
     }
+    
+    //Tắt chương trình bằng ESC
+    public void Keylistener(){
+        this.setFocusable(true);
+        this.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if(JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát chương trình?","Thông báo!",2)==0)                        
+                        dispose();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });      
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +68,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1500, 1500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jToolBar1.setRollover(true);
 
@@ -89,6 +121,12 @@ public class Dashboard extends javax.swing.JFrame {
     private void btEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEmployeeActionPerformed
         new EmployeeList().setVisible(true);
     }//GEN-LAST:event_btEmployeeActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát chương trình?","Thông báo!",2)==0)
+            this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

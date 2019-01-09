@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class Employee_ManagementDAL {
     
     Connection con;
-    
+   
     //Ham ket noi
     public Employee_ManagementDAL(){
          try {                
@@ -32,7 +32,7 @@ public class Employee_ManagementDAL {
             Logger.getLogger(Employee_ManagementDAL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+            
     //Viết hàm lấy dữ liệu từ database
     public ResultSet getData(String stringSQL){
         ResultSet rs = null;
@@ -86,7 +86,9 @@ public class Employee_ManagementDAL {
     //Viết hàm update dữ liệu
     public int EMPLOYEE_update (String[] stringSQL){
         int row = 0;
-        String update = "UPDATE EMPLOYEE SET MaDT=?, MaQT=? ,MaTT=?, MaTG=?, HoLotEml=?, TenEml=?, BietDanh=?, NgaySinh=?,Tuoi=? ,GioiTinh=?, NoiSinh=?, SoCMND=? , NgayCapCMND=?, NoiCap=?, StatusHonNhan=?, DiaChiThuongtru=?, DiaChiTamTru=?, DiaChiKhanCap=?, TenNguoiThan=?, Image=? WHERE MaNV=?";
+        String update = "UPDATE EMPLOYEE SET MaDT=?, MaQT=? ,MaTT=?, MaTG=?, HoLotEml=?, TenEml=?, BietDanh=?, "
+                + "NgaySinh=?,Tuoi=? ,GioiTinh=?, NoiSinh=?, SoCMND=? , NgayCapCMND=?, NoiCap=?, StatusHonNhan=?, "
+                + "DiaChiThuongtru=?, DiaChiTamTru=?, DiaChiKhanCap=?, TenNguoiThan=?, Image=? WHERE MaNV=?";
         PreparedStatement stament;
         try {
             stament = con.prepareCall(update);
