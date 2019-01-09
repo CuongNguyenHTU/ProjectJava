@@ -127,8 +127,8 @@ public class Employee_ManagementDAL {
         PreparedStatement stament;
         try {
             stament = con.prepareCall(delete);
-            
-            stament.setString(1,stringSQL[0]);
+         
+            stament.setString(1,stringSQL[0]);         
             
             row = stament.executeUpdate();
         } catch (SQLException ex) {

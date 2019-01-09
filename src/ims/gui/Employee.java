@@ -239,7 +239,7 @@ public class Employee extends javax.swing.JFrame{
         }
         showData();
     }
-  
+    
     //Viết hàm update data
     public void updateData() {
         String[] stringSQL = {jcbDantoc.getSelectedItem().toString(), jcbQuocTich.getSelectedItem().toString(),
@@ -259,8 +259,8 @@ public class Employee extends javax.swing.JFrame{
     
     //Viết hàm delete
     public void deleteData() {
-        String[] stringSQL = {jtfMaNV.getText()};
-
+        //String[] stringSQL = {jtfMaNV.getText()};
+        String[] stringSQL = {jTable1.getColumnName(1)};
         int delete = con.EMPLOYEE_delete(stringSQL);
 
         if (delete > 0) {
@@ -302,7 +302,7 @@ public class Employee extends javax.swing.JFrame{
         jtfDCTamtru.setText(jTable1.getValueAt(selectRow,17).toString());
         jtfDCKhancap.setText(jTable1.getValueAt(selectRow,18).toString());
         jtfNguoithan.setText(jTable1.getValueAt(selectRow, 19).toString());
-        path.setText(jTable1.getValueAt(selectRow, 20).toString());
+        path.setText(jTable1.getValueAt(selectRow, 20).toString());           
     }
 //    public void stateButton(boolean value){
 //        
@@ -852,7 +852,7 @@ public class Employee extends javax.swing.JFrame{
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        getSelectedData();
+        //getSelectedData();
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
